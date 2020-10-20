@@ -81,7 +81,7 @@ void program2_2()
 	while (i < m) {
 		irand = (double)rand()/32767;
 		double result = biSection(irand);
-		printf("%lf %.15lf\n",irand, result);
+		//printf("%lf %.15lf\n",irand, result);
 		fprintf(fp_w, "%.15lf\n",result);
 		i++;
 	}

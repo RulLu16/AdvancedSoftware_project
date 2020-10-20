@@ -38,14 +38,15 @@ double diffFunc(double x) {
 	return (1 - s) * px1[1][idx] + s * px1[1][idx + 1];
 }
 
-double biSection1(double u) {
+double biSection1(double u, int flag) {
 	double a0 = 0; double b0 = 1;
 	double mid, before;
 	int i = 0;
 
 	mid = (a0 + b0) / 2;
 
-	while (1) {
+	if (flag > 0) i = Nmax - flag;
+	while (i<=Nmax) {
 		if (func1(mid, u) < 0) {
 			if (func1(a0, u) < 0) a0 = mid;
 			else  b0 = mid;
@@ -59,7 +60,7 @@ double biSection1(double u) {
 		i++;
 
 		if (fabs(func1(mid, u)) < DELTA) break;
-		if (i >= Nmax) break;
+		//if (i >= Nmax) break;
 		if (fabs(mid - before) < EPSILON) break;
 	}
 
@@ -87,7 +88,7 @@ double secant(double u) {
 }
 
 double newton(double u) {
-	double x0 = 0.5;
+	double x0 = biSection1(u, 3);
 	double x1;
 	int i = 0;
 
@@ -121,10 +122,13 @@ void expoRand() {
 		srand(iseed);
 		for (int j = 0; j < num; j++) {
 			irand = (double)rand() / 32767;
-			double x = -log(1 - irand) / ramda;
+			double x = -(log(1 - irand) / ramda);
+			if (x == INFINITY) {
+				j--; continue;
+			}
 			sum += x; squareSum += x * x;
-			printf("%lf\n", x);
 		}
+		if (sum / num > 2) printf("%lf %lf\n", sum, num);
 		printf("Average: %lf\n", sum / num);
 		printf("Variance: %lf\n", squareSum / num - (sum / num) * (sum / num));
 	}
@@ -215,8 +219,8 @@ void program2_2_a()
 
 	// something to do...
 	for (int i = 0; i < randNum; i++) {
-		double result = biSection1(randArr[i]);
-		printf("%.15lf\n", result);
+		double result = biSection1(randArr[i], 0);
+		//printf("%.15lf\n", result);
 	}
 
 	CHECK_TIME_END(resultTime);
@@ -235,7 +239,7 @@ void program2_2_b()
 	for (int i = 0; i < randNum; i++) {
 		//double result = secant(randArr[i]);
 		double result = newton(randArr[i]);
-		printf("%.15lf\n", result);
+		//printf("%.15lf\n", result);
 	}
 
 	CHECK_TIME_END(resultTime);
