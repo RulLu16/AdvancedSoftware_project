@@ -18,10 +18,24 @@ double func1(double x, double u) {
 			idx = i;
 		}
 	}
-	//printf("%lf\n", ans - u);
 
 	ans += (px1[1][idx] + ((px1[1][idx + 1] - px1[1][idx]) / (px1[0][idx + 1] - px1[0][idx])) * ((x - px1[0][idx]) / 2)) * (x - px1[0][idx]);
 	return ans - u;
+}
+
+double diffFunc(double x) {
+	int idx = 0;
+
+	for (int i = 0; i < count1-1; i++) {
+		if (px1[0][i] <= x && px1[0][i + 1] >= x) {
+			idx = i;
+			break;
+		}
+	}
+
+	double s = (x - px1[0][idx]) / (px1[0][idx + 1] - px1[0][idx]);
+
+	return (1 - s) * px1[1][idx] + s * px1[1][idx + 1];
 }
 
 double biSection1(double u) {
@@ -72,6 +86,50 @@ double secant(double u) {
 	return x2;
 }
 
+double newton(double u) {
+	double x0 = 0.5;
+	double x1;
+	int i = 0;
+
+	while (1) {
+		x1 = x0 - func1(x0, u) / diffFunc(x0);
+		i++;
+
+		if (fabs(func1(x1, u)) < DELTA) break;
+		if (i >= Nmax) break;
+		if (fabs(x1 - x0) < EPSILON) break;
+
+		x0 = x1;
+	}
+
+	return x1;
+}
+
+void expoRand() {
+	int num;
+	printf("Enter n for exponential distribution: ");
+	scanf("%d", &num);
+
+	for (int i = 0; i < 3; i++) {
+		double irand, ramda;
+		double sum = 0; double squareSum = 0;
+		unsigned int iseed = (unsigned int)time(NULL);
+
+		printf("Enter ramda for test%d: ", i);
+		scanf("%lf", &ramda);
+
+		srand(iseed);
+		for (int j = 0; j < num; j++) {
+			irand = (double)rand() / 32767;
+			double x = -log(1 - irand) / ramda;
+			sum += x; squareSum += x * x;
+			printf("%lf\n", x);
+		}
+		printf("Average: %lf\n", sum / num);
+		printf("Variance: %lf\n", squareSum / num - (sum / num) * (sum / num));
+	}
+}
+
 void getTime() {
 
 	printf("\nEnter n for time check: ");
@@ -87,9 +145,12 @@ void getTime() {
 		i++;
 	}
 
+	// Homework 2-2
 	program2_2_a();
 	program2_2_b();
 }
+
+
 
 // HOMEWORK
 void program2_3()
@@ -136,7 +197,9 @@ void program2_3()
 
 	if (fp_r != NULL) fclose(fp_r);
 	if (fp_w != NULL) fclose(fp_w);
-	getTime();
+
+	expoRand(); // Homework 2-1
+	getTime(); // Homework 2-2
 
 	free(px1[0]); free(px1[1]);
 	free(px1); free(randArr); free(randTable);
@@ -170,7 +233,8 @@ void program2_2_b()
 
 	// something to do...
 	for (int i = 0; i < randNum; i++) {
-		double result = secant(randArr[i]);
+		//double result = secant(randArr[i]);
+		double result = newton(randArr[i]);
 		printf("%.15lf\n", result);
 	}
 
