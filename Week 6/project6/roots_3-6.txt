@@ -1,0 +1,28 @@
+Initial value of x = (-4.0, 5.0)
+
+Info value is 1
+-1.192873 1.278444
+
+|F(X)| : 0.000000 0.000000
+
+Initial value of x = (2.0, 5.0)
+
+Info value is 1
+1.781541 2.064179
+
+|F(X)| : 0.000000 0.000000
+
+Initial value of x = (-4.0, -5.0)
+
+Info value is 1
+-1.912160 -2.232608
+
+|F(X)| : 0.000000 0.000000
+
+Initial value of x = (4.0, -3.0)
+
+Info value is 1
+2.923492 -3.510016
+
+|F(X)| : 0.000000 0.000000
+

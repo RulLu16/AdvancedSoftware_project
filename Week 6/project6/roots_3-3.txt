@@ -1,0 +1,14 @@
+Initial value of x = (0.0, 0.0, 0.0)
+
+Info value is 4
+-4.711552 3.842156 1.629656
+
+Error occurs. That solution is not proper.
+
+Initial value of x = (1.55, 1.39, 1.10)
+
+Info value is 4
+0.305849 5.279747 1.966014
+
+Error occurs. That solution is not proper.
+
