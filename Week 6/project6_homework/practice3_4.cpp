@@ -47,7 +47,7 @@ void practice3_4(void) {
     printf("\n***** Solution *****\n");
     fprintf(fp_w, "%d\n", n);
     for (i = 0; i < n; i++) {
-        printf("x[%d] = %f, ", i, x[i]);
+        printf("x[%d] = %f\n", i, x[i]);
         fprintf(fp_w, "%.6f\n", x[i]);
     }
     printf("\n");
